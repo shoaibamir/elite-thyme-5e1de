@@ -1,8 +1,7 @@
 [build]
 publish = "out"
 command = "./stackbit-build.sh"
-[build]
-  publish = "public"
+publish = "public"
 
 [[plugins]]
   package = "netlify-plugin-submit-sitemap"
