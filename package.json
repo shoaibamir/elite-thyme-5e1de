@@ -26,5 +26,8 @@
     "sourcebit-source-contentful": "^0.6.7",
     "sourcebit-target-next": "^0.8.3",
     "sprintf-js": "^1.1.2"
+  },
+  "devDependencies": {
+    "@netlify/plugin-nextjs": "^5.15.13"
   }
 }
