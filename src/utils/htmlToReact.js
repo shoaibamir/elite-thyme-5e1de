@@ -1,35 +1,37 @@
 import React from 'react';
-import ReactHtmlParser, { convertNodeToElement } from 'react-html-parser';
-import ScriptTag from 'react-script-tag';
+import parse, { domToReact, attributesToProps } from 'html-react-parser';
 import Link from './link';
 import _ from 'lodash';
 
-const convertChildren = (children, index) => _.map(children, childNode => convertNodeToElement(childNode, index, _.noop()));
+// Concatenate the raw text content of a node's children. Used only for
+// <script> tags, which never contain nested elements, just plain JS text.
+function getRawContent(children) {
+    return _.map(children, (child) => child.data || '').join('');
+}
 
 export default function htmlToReact(html) {
     if (!html) {
         return null;
     }
-    return ReactHtmlParser(html, {
-        transform: (node, index) => {
+    const options = {
+        replace: (node) => {
             if (node.type === 'script') {
+                const props = attributesToProps(node.attribs);
                 if (!_.isEmpty(node.children)) {
                     return (
-                        <ScriptTag key={index} {...node.attribs}>
-                            {convertChildren(node.children, index)}
-                        </ScriptTag>
+                        <script {...props} dangerouslySetInnerHTML={{ __html: getRawContent(node.children) }} />
                     );
-                } else {
-                    return <ScriptTag key={index} {...node.attribs}/>;
                 }
+                return <script {...props} />;
             } else if (node.type === 'tag' && node.name === 'a') {
                 const href = node.attribs.href;
                 const props = _.omit(node.attribs, 'href');
                 // use Link only if there are no custom attributes like style, class, and what's not that might break react
                 if (_.isEmpty(props)) {
-                    return <Link key={index} href={href} {...props}>{convertChildren(node.children, index)}</Link>;
+                    return <Link href={href}>{domToReact(node.children, options)}</Link>;
                 }
             }
         }
-    });
+    };
+    return parse(html, options);
 };

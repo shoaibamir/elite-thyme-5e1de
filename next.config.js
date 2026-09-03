@@ -7,10 +7,8 @@ const sourcebitConfig = require('./sourcebit.js');
 sourcebit.fetch(sourcebitConfig);
 
 module.exports = {
+    output: 'export',
     trailingSlash: true,
-    devIndicators: {
-        autoPrerender: false
-    },
     sassOptions: {
         // scss files might import plain css files from the "public" folder:
         // @import "example.css";
@@ -29,7 +27,7 @@ module.exports = {
         // Instead, the src/pages/[...slug].js uses the "withRemoteDataUpdates"
         // function to update the content on the page without refreshing the
         // whole page
-        config.plugins.push(new webpack.WatchIgnorePlugin([/\/content\//]));
+        config.plugins.push(new webpack.WatchIgnorePlugin({ paths: [/\/content\//] }));
         return config;
     }
 };

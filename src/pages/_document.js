@@ -1,6 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { Helmet } from 'react-helmet';
-import ScriptTag from 'react-script-tag';
 import { withPrefix } from '../utils';
 
 
@@ -36,9 +35,9 @@ class MyDocument extends Document {
                 <Head>{this.helmetHeadComponents}</Head>
                 <body {...this.helmetBodyAttrComponents}>
                     <Main />
-                    <ScriptTag src={withPrefix('js/plugins.js')}/>
-                    <ScriptTag src={withPrefix('js/init.js')}/>
-                    <ScriptTag src={withPrefix('js/main.js')}/>
+                    <script src={withPrefix('js/plugins.js')}/>
+                    <script src={withPrefix('js/init.js')}/>
+                    <script src={withPrefix('js/main.js')}/>
                     <NextScript />
                 </body>
             </Html>

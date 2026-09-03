@@ -9,7 +9,7 @@ export default function Link({ children, href, ...other }) {
         // For root page, use index.js, for rest use [...slug].js
         const page = href === '/' ? '/' : '/[...slug]';
         return (
-            <NextLink href={page} as={href}>
+            <NextLink href={page} as={href} legacyBehavior>
                 <a {...other}>{children}</a>
             </NextLink>
         );
