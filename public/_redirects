@@ -1,0 +1,4 @@
+# Consolidate duplicate About page onto the real, indexed one.
+# /about-us/ (page content type) duplicates /about/ (landing content type, the one with real traffic).
+/about-us/  /about/  301
+/about-us   /about/  301
