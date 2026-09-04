@@ -20,6 +20,18 @@ export default class Body extends React.Component {
                     {_.get(this.props, 'page.seo.robots', null) && (
                     <meta name="robots" content={_.join(_.get(this.props, 'page.seo.robots', null), ',')}/>
                     )}
+                    {(() => {
+                        const customCanonical = _.get(this.props, 'page.seo.canonicalUrl', null);
+                        if (customCanonical) {
+                            return <link rel="canonical" href={customCanonical}/>;
+                        }
+                        const domain = _.trim(_.get(this.props, 'data.config.domain', null), '/');
+                        if (!domain) {
+                            return null;
+                        }
+                        const urlPath = withPrefix(_.get(this.props, 'page.stackbit_url_path', '/')).replace(/\/?$/, '/');
+                        return <link rel="canonical" href={domain + urlPath}/>;
+                    })()}
                     {_.map(_.get(this.props, 'page.seo.extra', null), (meta, meta_idx) => {
                         let key_name = _.get(meta, 'keyName', null) || 'name';
                         return (
@@ -47,6 +59,24 @@ export default class Body extends React.Component {
                     {_.get(this.props, 'data.config.favicon', null) && (
                     <link rel="icon" href={withPrefix(_.get(this.props, 'data.config.favicon', null))}/>
                     )}
+                    {(() => {
+                        const domain = _.trim(_.get(this.props, 'data.config.domain', null), '/');
+                        if (!domain) {
+                            return null;
+                        }
+                        const favicon = _.get(this.props, 'data.config.favicon', null);
+                        const logoUrl = favicon ? (/^https?:\/\//.test(favicon) ? favicon : domain + withPrefix(favicon)) : undefined;
+                        const orgSchema = {
+                            '@context': 'https://schema.org',
+                            '@type': 'Organization',
+                            name: _.get(this.props, 'data.config.title', null) || undefined,
+                            url: domain + '/',
+                            logo: logoUrl,
+                            telephone: _.get(this.props, 'data.config.phone', null) || undefined,
+                            email: _.get(this.props, 'data.config.email', null) || undefined
+                        };
+                        return <script type="application/ld+json">{JSON.stringify(orgSchema)}</script>;
+                    })()}
                     <body className={'palette-' + _.get(this.props, 'data.config.palette', null) + ' font-' + _.get(this.props, 'data.config.base_font', null)} />
                 </Helmet>
                 <div id="page" className="site">
