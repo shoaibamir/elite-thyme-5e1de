@@ -2,3 +2,5 @@
 publish = "out"
 command = "./stackbit-build.sh"
 
+[[plugins]]
+package = "@netlify/plugin-nextjs"

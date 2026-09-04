@@ -14,8 +14,12 @@ module.exports = {
                 // previewToken is optional, if not specified will be automatically created and reused
                 previewToken: process.env.CONTENTFUL_PREVIEW_TOKEN,
                 spaceId: process.env.CONTENTFUL_SPACE_ID || 'dcbua5eethnx',
-                // Which content environment to use, when Stackbit sets a split tests on Netlify, it use the BRANCH variable to identify the bucket
-                environment: process.env.BRANCH || process.env.CONTENTFUL_ENVIRONMENT || 'master',
+                // Which Contentful environment to use. Netlify also sets a BRANCH env var, but on PR
+                // deploy previews that holds a git ref like "pull/12/head" rather than a real branch
+                // name, which doesn't match any Contentful environment - so it's intentionally not
+                // used here. Set CONTENTFUL_ENVIRONMENT in Netlify if you ever need something other
+                // than the default 'master' environment.
+                environment: process.env.CONTENTFUL_ENVIRONMENT || 'master',
                 preview: isDev,
                 watch: isDev
             }
