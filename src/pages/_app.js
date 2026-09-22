@@ -1,6 +1,7 @@
 // import App from 'next/app'
 import { useEffect } from 'react';
 import Router from 'next/router';
+import Head from 'next/head';
 import '../sass/main.scss';
 
 
@@ -35,7 +36,15 @@ function MyApp({ Component, pageProps }) {
         };
     }, []);
 
-    return <Component {...pageProps} />;
+    return (
+        <>
+            <Head>
+                <meta charSet="utf-8"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            </Head>
+            <Component {...pageProps} />
+        </>
+    );
 }
 
 // Only uncomment this method if you have blocking data requirements for
