@@ -65,16 +65,105 @@ export default class Body extends React.Component {
                         }
                         const favicon = _.get(this.props, 'data.config.favicon', null);
                         const logoUrl = favicon ? (/^https?:\/\//.test(favicon) ? favicon : domain + withPrefix(favicon)) : undefined;
-                        const orgSchema = {
+                        const brandName = _.get(this.props, 'data.config.title', null) || undefined;
+                        const orgId = domain + '/#organization';
+
+                        const localBusinessSchema = {
                             '@context': 'https://schema.org',
-                            '@type': 'Organization',
-                            name: _.get(this.props, 'data.config.title', null) || undefined,
+                            '@type': 'LocalBusiness',
+                            '@id': orgId,
+                            name: brandName,
                             url: domain + '/',
                             logo: logoUrl,
-                            telephone: _.get(this.props, 'data.config.phone', null) || undefined,
-                            email: _.get(this.props, 'data.config.email', null) || undefined
+                            image: logoUrl,
+                            telephone: '+971504948135',
+                            sameAs: [
+                                'https://www.facebook.com/pakistancargouae',
+                                'https://twitter.com/Pakistani_cargo',
+                                'https://www.linkedin.com/company/pakistancargo',
+                                'https://www.instagram.com/pakistanicargo'
+                            ],
+                            address: [
+                                {
+                                    '@type': 'PostalAddress',
+                                    streetAddress: 'Warehouse 1, Ras Al Khor II',
+                                    addressLocality: 'Dubai',
+                                    addressCountry: 'AE'
+                                },
+                                {
+                                    '@type': 'PostalAddress',
+                                    streetAddress: 'Plot 64, 13th Street, M37',
+                                    postOfficeBoxNumber: '8646',
+                                    addressLocality: 'Musaffah, Abu Dhabi',
+                                    addressCountry: 'AE'
+                                }
+                            ],
+                            areaServed: [
+                                {'@type': 'City', name: 'Dubai'},
+                                {'@type': 'City', name: 'Abu Dhabi'},
+                                {'@type': 'City', name: 'Sharjah'},
+                                {'@type': 'Country', name: 'Pakistan'}
+                            ]
                         };
-                        return <script type="application/ld+json">{JSON.stringify(orgSchema)}</script>;
+
+                        const urlPath = withPrefix(_.get(this.props, 'page.stackbit_url_path', '/')).replace(/\/?$/, '/');
+                        const pageUrl = domain + urlPath;
+
+                        const SERVICE_PAGES = {
+                            'sea-cargo/': 'Sea Cargo Shipping',
+                            'air-cargo-to-pakistan/': 'Air Cargo Shipping',
+                            'courier-to-pakistan/': 'Courier Service',
+                            'packing-services/': 'Packing Services',
+                            'cargo-to-pakistan/': 'Cargo Shipping',
+                            'cargo-pakistan-from-dubai/': 'Cargo Shipping from Dubai',
+                            'cargo-pakistan-from-dbu-dhabi/': 'Cargo Shipping from Abu Dhabi',
+                            'pakistan-cargo-abu-dhabi/': 'Cargo Shipping from Abu Dhabi',
+                            'pakistan-cargo-mussafah/': 'Cargo Shipping from Mussafah'
+                        };
+                        const trimmedPath = _.trim(_.get(this.props, 'page.stackbit_url_path', ''), '/') + '/';
+                        const serviceName = SERVICE_PAGES[trimmedPath];
+                        const serviceSchema = serviceName ? {
+                            '@context': 'https://schema.org',
+                            '@type': 'Service',
+                            serviceType: serviceName,
+                            name: serviceName,
+                            provider: {'@id': orgId},
+                            areaServed: {'@type': 'Country', name: 'Pakistan'},
+                            url: pageUrl
+                        } : null;
+
+                        const modelName = _.get(this.props, 'page.__metadata.modelName', null);
+                        let blogSchema = null;
+                        if (modelName === 'post') {
+                            const author = _.get(this.props, 'page.author', null);
+                            const authorName = author ? _.trim((author.first_name || '') + (author.last_name || '')) : null;
+                            blogSchema = {
+                                '@context': 'https://schema.org',
+                                '@type': 'BlogPosting',
+                                headline: _.get(this.props, 'page.title', null),
+                                url: pageUrl,
+                                datePublished: _.get(this.props, 'page.date', null) || undefined,
+                                dateModified: _.get(this.props, 'page.date', null) || undefined,
+                                author: {'@type': 'Organization', name: authorName || brandName},
+                                publisher: {
+                                    '@type': 'Organization',
+                                    name: brandName,
+                                    logo: logoUrl ? {'@type': 'ImageObject', url: logoUrl} : undefined
+                                },
+                                mainEntityOfPage: {'@type': 'WebPage', '@id': pageUrl}
+                            };
+                        }
+
+                        const schemaScripts = [
+                            <script key="schema-localbusiness" type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
+                        ];
+                        if (serviceSchema) {
+                            schemaScripts.push(<script key="schema-service" type="application/ld+json">{JSON.stringify(serviceSchema)}</script>);
+                        }
+                        if (blogSchema) {
+                            schemaScripts.push(<script key="schema-blogposting" type="application/ld+json">{JSON.stringify(blogSchema)}</script>);
+                        }
+                        return schemaScripts;
                     })()}
                     <body className={'palette-' + _.get(this.props, 'data.config.palette', null) + ' font-' + _.get(this.props, 'data.config.base_font', null)} />
                 </Helmet>
