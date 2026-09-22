@@ -21,7 +21,7 @@ export default class Page extends React.Component {
                   </header>
                   {_.get(this.props, 'page.image', null) && (
                   <div className="post-image">
-                    <img src={withPrefix(_.get(this.props, 'page.image', null))} alt={_.get(this.props, 'page.image_alt', null)} />
+                    <img src={withPrefix(_.get(this.props, 'page.image', null), {w: 1500})} alt={_.get(this.props, 'page.image_alt', null)} />
                   </div>
                   )}
                   <div className="post-content">

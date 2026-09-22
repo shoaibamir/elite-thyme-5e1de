@@ -18,7 +18,7 @@ export default class Blog extends React.Component {
                     <div className="card">
                       {_.get(post, 'thumb_image', null) && (
                       <Link className="post-thumbnail" href={withPrefix(_.get(post, 'stackbit_url_path', null))}>
-                        <img src={withPrefix(_.get(post, 'thumb_image', null))} alt={_.get(post, 'thumb_image_alt', null)} />
+                        <img src={withPrefix(_.get(post, 'thumb_image', null), {w: 720})} alt={_.get(post, 'thumb_image_alt', null)} />
                       </Link>
                       )}
                       <div className="post-body">
