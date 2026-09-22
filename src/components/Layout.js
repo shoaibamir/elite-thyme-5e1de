@@ -68,6 +68,19 @@ export default class Body extends React.Component {
                         const brandName = _.get(this.props, 'data.config.title', null) || undefined;
                         const orgId = domain + '/#organization';
 
+                        const configPhone = _.get(this.props, 'data.config.phone', null);
+                        const configDubaiAddress = _.get(this.props, 'data.config.office_address_dubai', null);
+                        const configAbuDhabiAddress = _.get(this.props, 'data.config.office_address_abu_dhabi', null);
+                        const configSocialLinks = _.get(this.props, 'data.config.social_links', null);
+
+                        const addresses = [];
+                        if (configDubaiAddress) {
+                            addresses.push({ '@type': 'PostalAddress', streetAddress: configDubaiAddress, addressCountry: 'AE' });
+                        }
+                        if (configAbuDhabiAddress) {
+                            addresses.push({ '@type': 'PostalAddress', streetAddress: configAbuDhabiAddress, addressCountry: 'AE' });
+                        }
+
                         const localBusinessSchema = {
                             '@context': 'https://schema.org',
                             '@type': 'LocalBusiness',
@@ -76,28 +89,14 @@ export default class Body extends React.Component {
                             url: domain + '/',
                             logo: logoUrl,
                             image: logoUrl,
-                            telephone: '+971504948135',
-                            sameAs: [
+                            telephone: configPhone || '+971504948135',
+                            sameAs: (configSocialLinks && configSocialLinks.length) ? configSocialLinks : [
                                 'https://www.facebook.com/pakistancargouae',
                                 'https://twitter.com/Pakistani_cargo',
                                 'https://www.linkedin.com/company/pakistancargo',
                                 'https://www.instagram.com/pakistanicargo'
                             ],
-                            address: [
-                                {
-                                    '@type': 'PostalAddress',
-                                    streetAddress: 'Warehouse 1, Ras Al Khor II',
-                                    addressLocality: 'Dubai',
-                                    addressCountry: 'AE'
-                                },
-                                {
-                                    '@type': 'PostalAddress',
-                                    streetAddress: 'Plot 64, 13th Street, M37',
-                                    postOfficeBoxNumber: '8646',
-                                    addressLocality: 'Musaffah, Abu Dhabi',
-                                    addressCountry: 'AE'
-                                }
-                            ],
+                            address: addresses.length ? addresses : undefined,
                             areaServed: [
                                 {'@type': 'City', name: 'Dubai'},
                                 {'@type': 'City', name: 'Abu Dhabi'},
