@@ -118,7 +118,8 @@ export default class Body extends React.Component {
                             'cargo-pakistan-from-dubai/': 'Cargo Shipping from Dubai',
                             'cargo-pakistan-from-dbu-dhabi/': 'Cargo Shipping from Abu Dhabi',
                             'pakistan-cargo-abu-dhabi/': 'Cargo Shipping from Abu Dhabi',
-                            'pakistan-cargo-mussafah/': 'Cargo Shipping from Mussafah'
+                            'pakistan-cargo-mussafah/': 'Cargo Shipping from Mussafah',
+                            'pricing/': 'Cargo Shipping Rates'
                         };
                         const trimmedPath = _.trim(_.get(this.props, 'page.stackbit_url_path', ''), '/') + '/';
                         const serviceName = SERVICE_PAGES[trimmedPath];

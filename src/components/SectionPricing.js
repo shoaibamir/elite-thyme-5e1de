@@ -11,7 +11,7 @@ export default class SectionPricing extends React.Component {
             <section id={_.get(section, 'section_id', null)} className={'block pricing-block bg-' + _.get(section, 'background', null) + ' outer'}>
               <div className="block-header inner-small">
                 {_.get(section, 'title', null) && (
-                <h2 className="block-title">{_.get(section, 'title', null)}</h2>
+                <h1 className="block-title">{_.get(section, 'title', null)}</h1>
                 )}
                 {_.get(section, 'subtitle', null) && (
                 <p className="block-subtitle">
