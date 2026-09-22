@@ -12,7 +12,7 @@ export default class Header extends React.Component {
                 <div className="site-header-inside">
                   <div className="site-branding">
                     {_.get(this.props, 'data.config.header.logo_img', null) && (
-                    <p className="site-logo"><Link href={withPrefix('/')}><img src={withPrefix(_.get(this.props, 'data.config.header.logo_img', null))} alt={_.get(this.props, 'data.config.header.logo_img_alt', null)} width="1279" height="656" /></Link></p>
+                    <p className="site-logo"><Link href={withPrefix('/')}><img src={withPrefix(_.get(this.props, 'data.config.header.logo_img', null))} alt={_.get(this.props, 'data.config.header.logo_img_alt', null)} /></Link></p>
                     )}
                     {((_.get(this.props, 'page.template', null) === 'landing') || (_.get(this.props, 'page.template', null) === 'blog')) ? (
                     <h1 className={classNames('site-title', {'screen-reader-text': _.get(this.props, 'data.config.header.logo_img', null)})}><Link href={withPrefix('/')}>{_.get(this.props, 'data.config.title', null)}</Link></h1>
