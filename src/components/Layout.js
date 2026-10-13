@@ -5,6 +5,7 @@ import _ from 'lodash';
 import {withPrefix, attribute} from '../utils';
 import Header from './Header';
 import Footer from './Footer';
+import RelatedLinks from './RelatedLinks';
 
 export default class Body extends React.Component {
     render() {
@@ -171,6 +172,7 @@ export default class Body extends React.Component {
                   <Header {...this.props} />
                   <main id="content" className="site-content">
                     {this.props.children}
+                    <RelatedLinks {...this.props} />
                   </main>
                   <Footer {...this.props} />
                 </div>

@@ -1,0 +1,32 @@
+.related-links-wrap {
+  margin: 3rem 0 2rem;
+}
+
+.related-links {
+  border-top: 1px solid rgba(128, 128, 128, 0.3);
+  padding-top: 1.5rem;
+}
+
+.related-links-title {
+  font-size: 1.25rem;
+  margin: 0 0 0.75rem;
+}
+
+.related-links ul {
+  list-style: disc;
+  margin: 0;
+  padding-left: 1.25rem;
+  columns: 2;
+  column-gap: 2rem;
+}
+
+.related-links li {
+  margin: 0 0 0.35rem;
+  break-inside: avoid;
+}
+
+@media (max-width: 640px) {
+  .related-links ul {
+    columns: 1;
+  }
+}
