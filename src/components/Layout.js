@@ -1,5 +1,6 @@
 import React from 'react';
 import {Helmet} from 'react-helmet';
+import NextHead from 'next/head';
 import _ from 'lodash';
 
 import {withPrefix, attribute} from '../utils';
@@ -10,11 +11,17 @@ import RelatedLinks from './RelatedLinks';
 export default class Body extends React.Component {
     render() {
         let font = _.get(this.props, 'data.config.base_font', null) || 'nunito-sans';
+        const pageTitle = _.get(this.props, 'page.seo.title', null) ? (_.get(this.props, 'page.seo.title', null)) : _.get(this.props, 'page.title', null) + ' | ' + _.get(this.props, 'data.config.title', null);
         return (
             <React.Fragment>
+                {/* The title goes through next/head, not react-helmet. Next's head manager sets
+                    document.title to '' unless next/head supplies a title, and that raced with
+                    react-helmet's own update, leaving some pages with a blank title after hydration. */}
+                <NextHead>
+                    <title>{pageTitle}</title>
+                </NextHead>
                 <Helmet>
                     <html lang="en"/>
-                    <title>{_.get(this.props, 'page.seo.title', null) ? (_.get(this.props, 'page.seo.title', null)) : _.get(this.props, 'page.title', null) + ' | ' + _.get(this.props, 'data.config.title', null)}</title>
                     <meta name="google" content="notranslate" />
                     <meta name="description" content={_.get(this.props, 'page.seo.description', null) || ''} />
                     {_.get(this.props, 'page.seo.robots', null) && (

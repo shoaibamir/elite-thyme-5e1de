@@ -23,9 +23,11 @@ class MyDocument extends Document {
     }
 
     // should render on <head>
+    // The page title is rendered by next/head (see components/Layout.js), so Helmet's
+    // (empty) title is left out to avoid a second <title> element.
     get helmetHeadComponents() {
         return Object.keys(this.props.helmet)
-            .filter((el) => el !== 'htmlAttributes' && el !== 'bodyAttributes')
+            .filter((el) => el !== 'htmlAttributes' && el !== 'bodyAttributes' && el !== 'title')
             .map((el) => this.props.helmet[el].toComponent())
     }
 
