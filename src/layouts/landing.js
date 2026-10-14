@@ -11,7 +11,7 @@ export default class Landing extends React.Component {
                 let component = _.upperFirst(_.camelCase(_.get(section, 'type', null)));
                 let Component = components[component];
                 return (
-                  <Component key={section_idx} {...this.props} section={section} site={this.props} sectionIndex={section_idx} />
+                  <Component key={section_idx} {...this.props} section={section} site={this.props} />
                 )
             })}
             </Layout>

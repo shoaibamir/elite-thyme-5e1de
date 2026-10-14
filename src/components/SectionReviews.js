@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 
-import {htmlToReact, withPrefix, lazyAttrs} from '../utils';
+import {htmlToReact, withPrefix} from '../utils';
 
 export default class SectionReviews extends React.Component {
     render() {
@@ -27,7 +27,7 @@ export default class SectionReviews extends React.Component {
                       <p className="review-text">{htmlToReact(_.get(review, 'content', null))}</p>
                       <footer className="review-footer">
                         {_.get(review, 'avatar', null) && (
-                        <img className="review-avatar" src={withPrefix(_.get(review, 'avatar', null), {w: 120, h: 120, fit: 'thumb', focus: 'face'})} alt={_.get(review, 'avatar_alt', null)} width="60" height="60" {...lazyAttrs(true)}/>
+                        <img className="review-avatar" src={withPrefix(_.get(review, 'avatar', null), {w: 120, h: 120, fit: 'thumb', focus: 'face'})} alt={_.get(review, 'avatar_alt', null)} width="60" height="60"/>
                         )}
                         <cite className="review-author">{_.get(review, 'author', null)}</cite>
                       </footer>
