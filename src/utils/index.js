@@ -12,3 +12,4 @@ export { default as markdownify } from './markdownify';
 export { default as withPrefix } from './withPrefix';
 export { default as toStyleObj } from './toStyleObj';
 export { default as Link } from './link';
+export { default as slimProps } from './slimProps';

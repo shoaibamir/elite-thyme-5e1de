@@ -4,6 +4,7 @@ import { sourcebitDataClient } from 'sourcebit-target-next';
 import { withRemoteDataUpdates } from 'sourcebit-target-next/with-remote-data-updates';
 
 import pageLayouts from '../layouts';
+import { slimProps } from '../utils';
 
 
 class Page extends React.Component {
@@ -27,7 +28,7 @@ export async function getStaticProps({ params }) {
     console.log('Page [...slug].js getStaticProps, params: ', params);
     const pagePath = '/' + params.slug.join('/');
     const props = await sourcebitDataClient.getStaticPropsForPageAtPath(pagePath);
-    return { props };
+    return { props: slimProps(props) };
 }
 
 export default withRemoteDataUpdates(Page);

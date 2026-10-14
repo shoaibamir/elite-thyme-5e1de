@@ -1,5 +1,6 @@
 import React from 'react';
 import { sourcebitDataClient } from 'sourcebit-target-next';
+import { slimProps } from '../utils';
 
 /**
  * In next.js we can't use `src/pages/[...slug].js` for root site page `/`.
@@ -12,7 +13,7 @@ import Page from './[...slug]';
 export async function getStaticProps({ params }) {
     console.log('Page [index] getStaticProps, params: ', params);
     const props = await sourcebitDataClient.getStaticPropsForPageAtPath('/');
-    return { props };
+    return { props: slimProps(props) };
 }
 
 export default Page;
