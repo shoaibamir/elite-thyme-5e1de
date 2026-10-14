@@ -4,7 +4,7 @@ import { sourcebitDataClient } from 'sourcebit-target-next';
 import { withRemoteDataUpdates } from 'sourcebit-target-next/with-remote-data-updates';
 
 import pageLayouts from '../layouts';
-import { slimProps } from '../utils';
+import { slimProps, attachImageDims } from '../utils';
 
 
 class Page extends React.Component {
@@ -28,7 +28,8 @@ export async function getStaticProps({ params }) {
     console.log('Page [...slug].js getStaticProps, params: ', params);
     const pagePath = '/' + params.slug.join('/');
     const props = await sourcebitDataClient.getStaticPropsForPageAtPath(pagePath);
-    return { props: slimProps(props) };
+    const assets = _.filter((await sourcebitDataClient.getData()).objects, object => _.get(object, '__metadata.modelName') === '__asset');
+    return { props: attachImageDims(slimProps(props), assets) };
 }
 
 export default withRemoteDataUpdates(Page);

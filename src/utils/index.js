@@ -13,3 +13,4 @@ export { default as withPrefix } from './withPrefix';
 export { default as toStyleObj } from './toStyleObj';
 export { default as Link } from './link';
 export { default as slimProps } from './slimProps';
+export { attachImageDims, imageSizeAttrs, lazyAttrs } from './imageDims';

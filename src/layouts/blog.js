@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import {Layout} from '../components/index';
-import {getPages, Link, withPrefix} from '../utils';
+import {getPages, Link, withPrefix, imageSizeAttrs, lazyAttrs} from '../utils';
 import BlogPostFooter from '../components/BlogPostFooter';
 
 export default class Blog extends React.Component {
@@ -18,7 +18,7 @@ export default class Blog extends React.Component {
                     <div className="card">
                       {_.get(post, 'thumb_image', null) && (
                       <Link className="post-thumbnail" href={withPrefix(_.get(post, 'stackbit_url_path', null))}>
-                        <img src={withPrefix(_.get(post, 'thumb_image', null), {w: 720})} alt={_.get(post, 'thumb_image_alt', null)} />
+                        <img src={withPrefix(_.get(post, 'thumb_image', null), {w: 720})} alt={_.get(post, 'thumb_image_alt', null)} {...imageSizeAttrs(this.props.imageDims, _.get(post, 'thumb_image', null), 720)} {...lazyAttrs(post_idx >= 3)} />
                       </Link>
                       )}
                       <div className="post-body">
